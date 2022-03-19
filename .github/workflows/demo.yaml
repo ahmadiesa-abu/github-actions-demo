@@ -1,0 +1,18 @@
+name: just a simple demo for cli action
+on:
+  workflow_dispatch:
+  
+jobs:
+  test_job:
+    steps:
+      - name: Run some command
+        uses: cloudify-cosmo/cli-action@v1.2
+        with:
+          command: "blueprints list"
+          
+env:
+  CLOUDIFY_HOST: ${{ secrets.CLOUDIFY_HOST }}
+  CLOUDIFY_USERNAME: ${{ secrets.CLOUDIFY_USERNAME }}
+  CLOUDIFY_PASSWORD: ${{ secrets.CLOUDIFY_PASSWORD }}
+  CLOUDIFY_TENANT: ${{ secrets.CLOUDIFY_TENANT }}
+  CLOUDIFY_SSL: ${{ secrets.CLOUDIFY_SSL }}

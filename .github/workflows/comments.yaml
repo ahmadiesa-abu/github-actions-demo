@@ -1,0 +1,39 @@
+name: execute cloudify command from PR comment
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  check-for-approval:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.comment.body == 'cfy terraform apply'}}
+    environment: manager-oversight
+    steps:
+      - id: echo_comment
+        run: |
+          echo "${{ github.event.comment.body }}"
+  run-command:
+    runs-on: ubuntu-latest
+    needs: check-for-approval
+    if: ${{ always() && !(contains(needs.*.result, 'failure')) }}
+    steps:
+      - id: handle_comment
+        name: handle comment on PR
+        uses: ahmadiesa-abu/cloudify-comment-action@v1.0
+        with:
+          comment: "${{ github.event.comment.body }}"
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          environment-name: "terraform-test"
+          labels: test_label:just_for_fun
+          #module-file: https://github.com/cloudify-community/tf-source/archive/refs/heads/main.zip
+          module-source-path: template/modules/public_vm
+          variables-file: variables.yaml
+      - id: print_result
+        run: |
+          echo "${{ steps.handle_comment.outputs.result }}"
+          
+env:
+  CLOUDIFY_HOST: ${{ secrets.CLOUDIFY_HOST }}
+  CLOUDIFY_USERNAME: ${{ secrets.CLOUDIFY_USERNAME }}
+  CLOUDIFY_PASSWORD: ${{ secrets.CLOUDIFY_PASSWORD }}
+  CLOUDIFY_TENANT: ${{ secrets.CLOUDIFY_TENANT }}
+  CLOUDIFY_SSL: ${{ secrets.CLOUDIFY_SSL }}

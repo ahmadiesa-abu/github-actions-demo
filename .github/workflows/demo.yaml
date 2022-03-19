@@ -5,6 +5,7 @@ on:
 jobs:
   test_job:
     runs-on: ubuntu-latest
+    environment: manager-oversight
     steps:
       - name: Run some command
         uses: cloudify-cosmo/cli-action@v1.2

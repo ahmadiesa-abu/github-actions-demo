@@ -27,7 +27,7 @@ resource "aws_instance" "example_vm" {
   instance_type = var.aws_instance_type
 
   tags = {
-    Name = "cloudify-public-${var.env_name}-vm"
+    Name = "cloudify-public-${var.env_name}-vm-ahmad"
     Created_by = "Cloudify"
     Deployment_id = var.deployment_id
     Just_for_fun = "true"

@@ -27,6 +27,7 @@ jobs:
           #module-file: https://github.com/cloudify-community/tf-source/archive/refs/heads/main.zip
           module-source-path: template/modules/public_vm
           variables-file: variables.yaml
+          skip-apply-comment: "true"
       - id: print_result
         run: |
           echo "${{ steps.handle_comment.outputs.result }}"

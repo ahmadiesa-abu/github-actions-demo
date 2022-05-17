@@ -27,11 +27,11 @@ resource "aws_instance" "example_vm" {
   instance_type = var.aws_instance_type
 
   tags = {
-    Name = "cloudify-public-${var.env_name}-vm-ahmad"
+    Name = "cloudify-public-${var.env_name}-vm-ahmad-updated"
     Created_by = "Cloudify"
     Deployment_id = var.deployment_id
     Just_for_fun = "true"
-    Added_for_demo = "to show the plan again"
+    Added_for_demo = "show more plan action"
   }
 
   # Lookup the correct AMI based on the region

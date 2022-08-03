@@ -17,7 +17,7 @@ jobs:
         id: get_secert_step
         uses: cloudify-cosmo/cli-action@v1.2
         with:
-          command: "secrets get --json ${{ github.event.inputs.env_type }}" 
+          command: "secrets get --json ${{ github.event.inputs.secret_name }}" 
           set-output: false
       - name: Get Deployment ID
         shell: bash

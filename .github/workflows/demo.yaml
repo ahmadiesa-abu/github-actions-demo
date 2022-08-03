@@ -19,10 +19,10 @@ jobs:
         with:
           command: "secrets get --json ${{ github.event.inputs.secret_name }}" 
           set-output: false
-      - name: Get Deployment ID
+      - name: Parse Secret value
         shell: bash
         run: |
-          key_val=${{fromJSON(steps.get_secert_step.outputs.cli-output)}}
+          key_val=${{fromJSON(steps.get_secert_step.outputs.cli-output).value}}
           echo "$key_val"
           
 env:

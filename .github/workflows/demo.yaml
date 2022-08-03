@@ -18,7 +18,7 @@ jobs:
         uses: cloudify-cosmo/cli-action@v1.2
         with:
           command: "secrets get --json ${{ github.event.inputs.secret_name }}" 
-          set-output: false
+          set-output: true
       - name: Parse Secret value
         shell: bash
         run: |

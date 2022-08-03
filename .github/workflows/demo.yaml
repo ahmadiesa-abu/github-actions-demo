@@ -24,12 +24,9 @@ jobs:
         run: |
           import json
           cli_output = ${{steps.get_secert_step.outputs.cli-output}}
-          pretty_cost = json.loads(json.loads(cli_output)['value'])['${{ github.event.inputs.json_key }}']
-          print('pretty_cost {0}'.format(pretty_cost))
-          pretty_cost = pretty_cost.replace('%','%25')
-          pretty_cost = pretty_cost.replace('\n','%0A')
-          pretty_cost = pretty_cost.replace('\r','%0D')
-          print ('::set-output name=cost::{0}'.format(pretty_cost))
+          json_val = json.loads(json.loads(cli_output)['value'])['${{ github.event.inputs.json_key }}']
+          print('json_val {0}'.format(json_val))
+
           
 env:
   CLOUDIFY_HOST: ${{ secrets.CLOUDIFY_HOST }}

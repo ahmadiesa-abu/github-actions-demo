@@ -30,6 +30,7 @@ jobs:
         shell: python
         run: |
           import json
+          print(${{ secrets.MY_INPUT }})
           cli_output = ${{steps.get_secert_step.outputs.cli-output}}
           json_val = json.loads(json.loads(cli_output)['value'])['${{ github.event.inputs.json_key }}']
           print('json_val {0}'.format(json_val))

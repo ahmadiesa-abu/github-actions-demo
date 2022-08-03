@@ -1,7 +1,10 @@
 name: just a simple demo for cli action
 on:
   workflow_dispatch:
-  
+    inputs:
+      env_type:
+        required: true
+        description: 'json main key value'  
 jobs:
   test_job:
     runs-on: ubuntu-latest
@@ -10,7 +13,7 @@ jobs:
       - name: Run some command
         uses: cloudify-cosmo/cli-action@v1.2
         with:
-          command: "blueprints list"
+          command: "secerts get ${{ github.event.inputs.env_type }}" 
           set-output: false
           
 env:

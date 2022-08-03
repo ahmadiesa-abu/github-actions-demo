@@ -2,19 +2,27 @@ name: just a simple demo for cli action
 on:
   workflow_dispatch:
     inputs:
-      env_type:
+      secret_name:
         required: true
-        description: 'json main key value'  
+        description: 'secert key that contians the json'  
+      json_key:
+         required: true
+         description: 'key to parse from the secret json'       
 jobs:
   test_job:
     runs-on: ubuntu-latest
     environment: manager-oversight
     steps:
       - name: Run some command
+        id: get_secert_step
         uses: cloudify-cosmo/cli-action@v1.2
         with:
           command: "secrets get --json ${{ github.event.inputs.env_type }}" 
           set-output: false
+      - name: Get Deployment ID
+        shell: bash
+        run: |
+          echo ${{fromJSON(steps.get_secert_step.outputs.cli-output).${{ github.event.inputs.env_type }}}}
           
 env:
   CLOUDIFY_HOST: ${{ secrets.CLOUDIFY_HOST }}

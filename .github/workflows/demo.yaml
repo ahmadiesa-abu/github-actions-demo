@@ -20,11 +20,17 @@ jobs:
           command: "secrets get --json ${{ github.event.inputs.secret_name }}" 
           set-output: true
       - name: Parse Secret value
-        shell: bash
+        shell: python
         run: |
-          sudo apt-get install jq -y
-          key_val=`${{steps.get_secert_step.outputs.cli-output}} | jq -r '.value.${{ github.event.inputs.json_key }}'`
-          echo "$key_val"
+          import json
+          environment_data = json.loads(r"""${{steps.get_secert_step.outputs.cli-output}}""")['value']['${{github.event.inputs.json_key }}']
+          print(environment_data)
+          result = json.dumps(environment_data, sort_keys=True, indent=4)
+          result = result.replace('%','%25')
+          result = result.replace('\n','%0A')
+          result = result.replace('\r','%0D')
+          
+          print ('::set-output name=data::{0}'.format(result))
           
 env:
   CLOUDIFY_HOST: ${{ secrets.CLOUDIFY_HOST }}

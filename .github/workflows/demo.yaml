@@ -22,8 +22,8 @@ jobs:
       - name: Get Deployment ID
         shell: bash
         run: |
-          key_val=${{github.event.inputs.json_key}}
-          echo "${{fromJSON(steps.get_secert_step.outputs.cli-output).`$key_val`}}"
+          key_val=${{fromJSON(steps.get_secert_step.outputs.cli-output)}}
+          echo "$key_val"
           
 env:
   CLOUDIFY_HOST: ${{ secrets.CLOUDIFY_HOST }}

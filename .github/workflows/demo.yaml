@@ -33,6 +33,7 @@ jobs:
       - name: Parse Secret value
         shell: python
         run: |
+          import os
           import json
           print(os.environ())
           cli_output = ${{steps.get_secert_step.outputs.cli-output}}

@@ -15,6 +15,10 @@ on:
         options:
           - aws
           - azure
+      my_env:
+        type: environment
+        required: false
+        
 jobs:
   test_job:
     runs-on: ubuntu-latest
@@ -30,7 +34,7 @@ jobs:
         shell: python
         run: |
           import json
-          print(${{ secrets.MY_INPUT }})
+          print(${{ inputs.my_env }})
           cli_output = ${{steps.get_secert_step.outputs.cli-output}}
           json_val = json.loads(json.loads(cli_output)['value'])['${{ github.event.inputs.json_key }}']
           print('json_val {0}'.format(json_val))

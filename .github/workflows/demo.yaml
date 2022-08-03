@@ -24,7 +24,7 @@ jobs:
         run: |
           import json
           cli_output = ${{steps.get_secert_step.outputs.cli-output}}
-          pretty_cost = json.loads(cli_output)['value']['${{ github.event.inputs.json_key }}']
+          pretty_cost = json.loads(json.loads(cli_output)['value'])['${{ github.event.inputs.json_key }}']
           print('pretty_cost {0}'.format(pretty_cost))
           pretty_cost = pretty_cost.replace('%','%25')
           pretty_cost = pretty_cost.replace('\n','%0A')

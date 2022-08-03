@@ -1,17 +1,53 @@
 name: just a simple demo for cli action
 on:
   workflow_dispatch:
-  
+    inputs:
+      secret_name:
+        type: choice
+        required: true
+        description: 'secert key that contians the json'
+        options:
+          - eaas_params
+      json_key:
+        type: choice
+        required: true
+        description: 'key to parse from the secret json'
+        options:
+          - aws
+          - azure
+      my_env:
+        type: environment
+        required: true
+        
 jobs:
   test_job:
     runs-on: ubuntu-latest
-    environment: manager-oversight
+    environment: ${{ github.event.inputs.my_env }}
     steps:
       - name: Run some command
+        id: get_secert_step
         uses: cloudify-cosmo/cli-action@v1.2
         with:
-          command: "blueprints list"
-          set-output: false
+          command: "secrets get --json ${{ github.event.inputs.secret_name }}" 
+
+      - name: Parse Secret value
+        shell: python
+        run: |
+          import os
+          import json
+          
+          cli_output = ${{steps.get_secert_step.outputs.cli-output}}
+          json_val = json.loads(json.loads(cli_output)['value'])['${{ github.event.inputs.json_key }}']
+          json_val['ahmad'] = "${{ secrets.MY_INPUT }}"
+          print('json_val {0}'.format(json_val))
+          with open('data.json', 'w') as f:
+            json.dump(json_val, f)
+            
+      - uses: actions/upload-artifact@v3
+        with:
+          name: data.json
+          path: data.json
+
           
 env:
   CLOUDIFY_HOST: ${{ secrets.CLOUDIFY_HOST }}

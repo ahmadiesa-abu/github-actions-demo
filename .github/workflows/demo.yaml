@@ -22,7 +22,7 @@ jobs:
       - name: Parse Secret value
         shell: bash
         run: |
-          apt-get install jq -y
+          sudo apt-get install jq -y
           key_val=`${{steps.get_secert_step.outputs.cli-output}} | jq -r '.value.${{ github.event.inputs.json_key }}'`
           echo "$key_val"
           

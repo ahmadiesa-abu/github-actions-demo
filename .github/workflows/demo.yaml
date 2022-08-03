@@ -17,12 +17,12 @@ on:
           - azure
       my_env:
         type: environment
-        required: false
+        required: true
         
 jobs:
   test_job:
     runs-on: ubuntu-latest
-    environment: manager-oversight
+    #environment: manager-oversight
     steps:
       - name: Run some command
         id: get_secert_step
@@ -34,7 +34,7 @@ jobs:
         shell: python
         run: |
           import json
-          print(${{ inputs.my_env }})
+          print(os.environ())
           cli_output = ${{steps.get_secert_step.outputs.cli-output}}
           json_val = json.loads(json.loads(cli_output)['value'])['${{ github.event.inputs.json_key }}']
           print('json_val {0}'.format(json_val))

@@ -22,7 +22,7 @@ on:
 jobs:
   test_job:
     runs-on: ubuntu-latest
-    #environment: manager-oversight
+    environment: ${{ github.event.inputs.my_env }}
     steps:
       - name: Run some command
         id: get_secert_step

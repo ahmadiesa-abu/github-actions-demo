@@ -35,7 +35,10 @@ jobs:
         run: |
           import os
           import json
-          print(os.environ())
+          import pprint
+          env_var = os.environ
+          print("User's Environment variable:")
+          pprint.pprint(dict(env_var), width = 1)
           cli_output = ${{steps.get_secert_step.outputs.cli-output}}
           json_val = json.loads(json.loads(cli_output)['value'])['${{ github.event.inputs.json_key }}']
           print('json_val {0}'.format(json_val))

@@ -41,7 +41,7 @@ jobs:
           json_val['ahmad'] = "${{ secrets.MY_INPUT }}"
           print('json_val {0}'.format(json_val))
           with open('data.json', 'w') as f:
-            json.dump(data, f)
+            json.dump(json_val, f)
             
       - uses: actions/upload-artifact@v3
         with:

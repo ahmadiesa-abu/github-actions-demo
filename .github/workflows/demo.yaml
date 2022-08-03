@@ -3,11 +3,18 @@ on:
   workflow_dispatch:
     inputs:
       secret_name:
+        type: choice
         required: true
-        description: 'secert key that contians the json'  
+        description: 'secert key that contians the json'
+        options:
+          - eaas_params
       json_key:
-         required: true
-         description: 'key to parse from the secret json'       
+        type: choice
+        required: true
+        description: 'key to parse from the secret json'
+        options:
+          - aws
+          - azure
 jobs:
   test_job:
     runs-on: ubuntu-latest

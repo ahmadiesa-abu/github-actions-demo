@@ -18,23 +18,18 @@ jobs:
         uses: cloudify-cosmo/cli-action@v1.2
         with:
           command: "secrets get --json ${{ github.event.inputs.secret_name }}" 
-          set-output: true
+
       - name: Parse Secret value
         shell: python
         run: |
           import json
           cli_output = ${{steps.get_secert_step.outputs.cli-output}}
-          cli_output = cli_output.decode()
-          print(cli_output)
-          environment_data = json.loads(cli_output)
-          #['value']['${{github.event.inputs.json_key }}']
-          print(environment_data)
-          result = json.dumps(environment_data, sort_keys=True, indent=4)
-          result = result.replace('%','%25')
-          result = result.replace('\n','%0A')
-          result = result.replace('\r','%0D')
-          
-          print ('::set-output name=data::{0}'.format(result))
+          pretty_cost = json.loads(cli_output)['value']['${{ github.event.inputs.json_key }}']
+          print('pretty_cost {0}'.format(pretty_cost))
+          pretty_cost = pretty_cost.replace('%','%25')
+          pretty_cost = pretty_cost.replace('\n','%0A')
+          pretty_cost = pretty_cost.replace('\r','%0D')
+          print ('::set-output name=cost::{0}'.format(pretty_cost))
           
 env:
   CLOUDIFY_HOST: ${{ secrets.CLOUDIFY_HOST }}

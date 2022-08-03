@@ -13,7 +13,7 @@ jobs:
       - name: Run some command
         uses: cloudify-cosmo/cli-action@v1.2
         with:
-          command: "secerts get ${{ github.event.inputs.env_type }}" 
+          command: "secrets get --json ${{ github.event.inputs.env_type }}" 
           set-output: false
           
 env:

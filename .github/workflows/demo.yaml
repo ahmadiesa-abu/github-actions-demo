@@ -26,7 +26,8 @@ jobs:
           cli_output = ${{steps.get_secert_step.outputs.cli-output}}
           cli_output = cli_output.decode()
           print(cli_output)
-          environment_data = json.loads(cli_output)['value']['${{github.event.inputs.json_key }}']
+          environment_data = json.loads(cli_output)['value']
+          #['${{github.event.inputs.json_key }}']
           print(environment_data)
           result = json.dumps(environment_data, sort_keys=True, indent=4)
           result = result.replace('%','%25')

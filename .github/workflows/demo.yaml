@@ -23,7 +23,9 @@ jobs:
         shell: python
         run: |
           import json
-          environment_data = json.loads(r"""${{steps.get_secert_step.outputs.cli-output}}""")['value']['${{github.event.inputs.json_key }}']
+          cli_output = ${{steps.get_secert_step.outputs.cli-output}}
+          cli_output = cli_output.decode()
+          environment_data = json.loads(cli_output)['value']['${{github.event.inputs.json_key }}']
           print(environment_data)
           result = json.dumps(environment_data, sort_keys=True, indent=4)
           result = result.replace('%','%25')

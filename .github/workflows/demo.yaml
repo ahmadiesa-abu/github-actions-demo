@@ -40,6 +40,13 @@ jobs:
           json_val = json.loads(json.loads(cli_output)['value'])['${{ github.event.inputs.json_key }}']
           json_val['ahmad'] = "${{ secrets.MY_INPUT }}"
           print('json_val {0}'.format(json_val))
+          with open('data.json', 'w') as f:
+            json.dump(data, f)
+            
+      - uses: actions/upload-artifact@v3
+        with:
+          name: data.json
+          path: data.json
 
           
 env:
